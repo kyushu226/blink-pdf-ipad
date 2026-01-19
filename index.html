@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#111111">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="icon" href="data:,">
+
+
+
+<title>Face Scroll PDF</title>
+
+<style>
+  body { margin: 0; background: #111; }
+  canvas { display: block; margin: 0 auto; }
+
+  #controls {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    width: 260px;
+  }
+
+  #controls button { width: 100%; margin-top: 6px; }
+  #controls input[type="range"] { width: 100%; }
+  #controls input[type="file"] { width: auto; }
+
+  #tempoBox {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 9999;
+  }
+
+  #dots { margin-top: 6px; font-size: 22px; letter-spacing: 6px; }
+</style>
+</head>
+
+<body>
+
+<div id="controls">
+  <input type="file" id="pdfInput" accept="application/pdf"><br>
+
+  <button id="calibrateBtn">この顔が正面</button>
+  <button id="scrollToggle">⏸ スクロール停止</button>
+
+  BPM: <span id="bpmValue">80</span>
+  <input type="range" id="bpmSlider" min="50" max="220" value="80">
+
+  <button id="startTempo">▶ 再生</button>
+  <button id="stopTempo">⏸ 停止</button>
+</div>
+
+<div id="pdfContainer"></div>
+
+<div id="tempoBox">
+  BPM <span id="bpmText">80</span>
+  <div id="dots">● ○ ○ ○</div>
+</div>
+<script src="./pdfjs/pdf.min.js"></script>
+<script src="./mediapipe/face_mesh/face_mesh.js"></script>
+<script src="./mediapipe/camera_utils/camera_utils.js"></script>
+<script src="./main.js?v=1"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("SW registered"))
+      .catch(e => console.error("SW register failed", e));
+  }
+
+</script>
+
+</body>
+</html>
